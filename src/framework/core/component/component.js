@@ -11,7 +11,7 @@ export class Component {
    this.el = document.querySelector(this.selector)
    if (!this.el) throw new Error(`Component with selector ${this.selector} wasn't found`)
    
-   this.el.innerHTML = this.template
+   this.el.innerHTML = compileTemplate(this.template, this.data)
 
    initEvents.call(this)
  }
@@ -33,4 +33,18 @@ function initEvents() {
       .addEventListener( listener[0], this[ events[key] ].bind(this) )
   })
 
+}
+
+function compileTemplate(template, data) {
+  if ( _.isUndefined(data) ) return template
+
+  let regex = /\{{(.*?)}}/g
+
+  template = template.replace(regex, (str, d) => {
+    let key = d.trim()
+
+    return data[key]
+  })
+
+  return template
 }
