@@ -1,6 +1,9 @@
-const { FWComponent } = require("../framework");
+import { FWComponent } from "FW"
 
 class AppComponent extends FWComponent {
+  constructor(config){
+    super(config)
+  }
 
 }
 

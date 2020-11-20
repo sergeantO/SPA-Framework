@@ -1,4 +1,4 @@
-const { FWComponent, router } = require("../../framework");
+import { FWComponent, router } from "FW"
 
 class HomePageComponent extends FWComponent {
   constructor(config) {

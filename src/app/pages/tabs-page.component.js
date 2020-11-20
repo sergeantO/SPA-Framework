@@ -1,4 +1,5 @@
-const { FWComponent } = require("../../framework");
+import { FWComponent } from "FW"
+
 
 class TabsPageComponent extends FWComponent {
   constructor(config) {

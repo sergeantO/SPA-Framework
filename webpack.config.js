@@ -18,6 +18,12 @@ module.exports = {
     port: 4200
   },
 
+  resolve: {
+    alias: {
+      'FW': path.join(__dirname, 'src/framework')
+    }
+  },
+
   plugins: [
     new htmlWebpackPlugin({
       title: 'FW SPA',

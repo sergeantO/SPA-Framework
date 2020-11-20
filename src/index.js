@@ -1,7 +1,6 @@
 import { appModule } from './app/app.module'
-import { bootstrap } from './framework/core/bootstrap'
-import { wfm } from './framework/index'
+import { bootstrap, _ } from 'FW'
 
-wfm.delay().then(()=>{
+_.delay().then(()=>{
   bootstrap(appModule)
 })

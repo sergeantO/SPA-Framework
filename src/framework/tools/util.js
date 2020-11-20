@@ -1,4 +1,4 @@
-const WFM = {
+const _ = {
   delay (ms = 1000) {
     return new Promise((resolve, reject) => {
       setTimeout ( () => resolve(), ms )
@@ -11,4 +11,4 @@ const WFM = {
 }
 
 
-export { WFM }
+export { _ }

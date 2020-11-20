@@ -1,5 +1,5 @@
 import { router } from '../tools/router'
-import { WFM } from '../tools/util'
+import { _ } from '../tools/util'
 
 
 export class Module {
@@ -28,7 +28,7 @@ export class Module {
     let url = router.getUrl()
     let route = this.routes.find(r => r.path === url)
 
-    if ( WFM.isUndefined(route) ) {
+    if ( _.isUndefined(route) ) {
       route = this.routes.find(r => r.path === '**')
     }
 
@@ -37,8 +37,8 @@ export class Module {
   }
 
   renderComponent(c) {
-    if ( !WFM.isUndefined(c.onInit) ) c.onInit()
+    if ( !_.isUndefined(c.onInit) ) c.onInit()
     c.render()
-    if ( !WFM.isUndefined(c.afterRender) ) c.afterRender()
+    if ( !_.isUndefined(c.afterRender) ) c.afterRender()
   }
 }

@@ -1,4 +1,4 @@
-import { WFM } from '../tools/util'
+import { _ } from '../tools/util'
 
 export class Component {
  constructor (config) {
@@ -17,7 +17,7 @@ export class Component {
  }
 
  _initEvents() {
-  if ( WFM.isUndefined(this.events) ) return 
+  if ( _.isUndefined(this.events) ) return 
 
   let events = this.events()
 

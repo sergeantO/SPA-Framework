@@ -1,4 +1,4 @@
-const { FWComponent } = require("../../framework");
+import { FWComponent } from "FW"
 
 class NotFound extends FWComponent {
   constructor (config) {
