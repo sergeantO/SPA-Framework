@@ -1,8 +1,27 @@
-const { FWComponent } = require("../../framework");
+const { FWComponent, router } = require("../../framework");
 
 class HomePageComponent extends FWComponent {
   constructor(config) {
     super(config)
+  }
+
+  goToTabs (event) {
+    event.preventDefault()
+    router.navigate('tabs')
+  }
+
+  events () {
+    return {
+      'click .link': 'goToTabs'
+    }
+  }
+
+  onInit () {
+    console.log('init')
+  }
+
+  afterRender() {
+    console.log('after init')
   }
 }
 
@@ -17,7 +36,7 @@ export const homePageComponent = new HomePageComponent({
             <p>пусто</p>
           </div>
           <div class="card-action">
-            <a href="#">Другая страница</a>
+            <a href="#" class="link">Другая страница</a>
           </div>
         </div>
       </div>
