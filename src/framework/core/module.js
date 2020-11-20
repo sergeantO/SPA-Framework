@@ -18,11 +18,11 @@ export class Module {
 }
 
 function initComponents(bootstrap, components) {
-  if ( _.isUndefined(bootstrap) ) throw new Error('Bootstrap component is not defined')
-
-  // [ bootstrap, ...components ].forEach( renderComponent )
-  bootstrap.render()
-  components.forEach( renderComponent );
+  if ( _.isUndefined(bootstrap) ) {
+    throw new Error('Bootstrap component is not defined')
+  }
+  
+  [bootstrap, ...components].forEach( renderComponent )
 }
 
 function initRouting(routes) {

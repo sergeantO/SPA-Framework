@@ -4,10 +4,14 @@ export class Component {
  constructor (config) {
   this.template= config.template
   this.selector = config.selector
+  this.styles = config.styles
   this.el = null
  }
 
  render () {
+   initStyles(this.styles)
+
+
    this.el = document.querySelector(this.selector)
    if (!this.el) throw new Error(`Component with selector ${this.selector} wasn't found`)
    
@@ -47,4 +51,12 @@ function compileTemplate(template, data) {
   })
 
   return template
+}
+
+function initStyles (styles) {
+  if ( _.isUndefined(styles) ) return
+
+  let style = document.createElement('style')
+  style.innerHTML = styles
+  document.head.appendChild(style)
 }

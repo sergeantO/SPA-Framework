@@ -29,7 +29,7 @@ class TabsPageComponent extends FWComponent {
 export const tabsPageComponent = new TabsPageComponent({
   selector: 'app-tabs-page',
   template: `
-  <div class="row" style="margin-top: 30px">
+  <div class="row row-tab">
     <div class="s6 offset-s3">
       <ul class="collapsible popout">
         <li>
@@ -47,5 +47,14 @@ export const tabsPageComponent = new TabsPageComponent({
       </ul>
     </div>
   </div> 
+  `,
+  styles: `
+    .row-tab { margin-top: 30px }
+    
+    .collapsible li.active .collapsible-body {
+      display: block;
+    }
   `
+
+
 })
