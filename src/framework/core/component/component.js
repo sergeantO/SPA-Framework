@@ -1,4 +1,4 @@
-import { _ } from '../tools/util'
+import { _ } from '../../tools/util'
 
 export class Component {
  constructor (config) {
@@ -13,10 +13,14 @@ export class Component {
    
    this.el.innerHTML = this.template
 
-   this._initEvents()
+   initEvents.call(this)
  }
 
- _initEvents() {
+
+}
+
+function initEvents() {
+
   if ( _.isUndefined(this.events) ) return 
 
   let events = this.events()
@@ -28,6 +32,5 @@ export class Component {
       .querySelector( listener[1] )
       .addEventListener( listener[0], this[ events[key] ].bind(this) )
   })
- }
 
 }

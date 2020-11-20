@@ -1,5 +1,7 @@
-import { router } from '../tools/router'
+import { router } from './routing/router'
 import { _ } from '../tools/util'
+import { renderComponent } from './component/render-component'
+import { RoutingModule } from './routing/routing.module'
 
 
 export class Module {
@@ -10,35 +12,22 @@ export class Module {
   }
 
   start () {
-    this.initComponents()
-    if (this.routes) this.initRoutes()
+    initComponents(this.bootstrapComponent, this.components)
+    initRouting(this.routes)
   }
+}
 
-  initComponents() {
-    this.bootstrapComponent.render()
-    this.components.forEach( this.renderComponent.bind(this) );
-  }
+function initComponents(bootstrap, components) {
+  if ( _.isUndefined(bootstrap) ) throw new Error('Bootstrap component is not defined')
 
-  initRoutes() {
-    window.addEventListener('hashchange', this.renderRoute.bind(this) )
-    this.renderRoute()
-  }
+  // [ bootstrap, ...components ].forEach( renderComponent )
+  bootstrap.render()
+  components.forEach( renderComponent );
+}
 
-  renderRoute() {
-    let url = router.getUrl()
-    let route = this.routes.find(r => r.path === url)
+function initRouting(routes) {
+  if ( _.isUndefined(routes) ) return
 
-    if ( _.isUndefined(route) ) {
-      route = this.routes.find(r => r.path === '**')
-    }
-
-    document.querySelector('router-outlet').innerHTML = `<${route.component.selector}></${route.component.selector}>`
-    this.renderComponent(route.component)
-  }
-
-  renderComponent(c) {
-    if ( !_.isUndefined(c.onInit) ) c.onInit()
-    c.render()
-    if ( !_.isUndefined(c.afterRender) ) c.afterRender()
-  }
+  let routing = new RoutingModule(routes)
+  routing.init()
 }

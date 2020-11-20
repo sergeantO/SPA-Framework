@@ -1,8 +1,8 @@
 import { Module as FWModule } from './core/module'
-import { Component as FWComponent } from './core/component'
-import { bootstrap } from './core/bootstrap'
+import { Component as FWComponent } from './core/component/component'
+import { bootstrap } from './core/functions/bootstrap'
 import { _ } from './tools/util'
-import { router } from './tools/router'
+import { router } from './core/routing/router'
 
 export {
   FWModule,
