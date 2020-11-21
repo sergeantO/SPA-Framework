@@ -1,4 +1,4 @@
-import { FWComponent } from "FW"
+import { FWComponent, $ } from "FW"
 
 
 class TabsPageComponent extends FWComponent {
@@ -13,16 +13,19 @@ class TabsPageComponent extends FWComponent {
   }
 
   onTabClick ({target}) {
-    if ( !target.classList.contains('collapsible-header') ) return
+    let $target  = $(target)
+     
+    if ( !$target.hasClass('collapsible-header') ) return
 
-    let childs = target.parentNode.parentNode.children
+    let childs = $target.parent().parent().get().children
 
     for (let child of childs) {
-      if ( child.classList.contains('active') )
-        child.classList.remove('active')
+      let $child = $(child)
+      if ( $child.hasClass('active') )
+        $child.removeClass('active')
     }
 
-    target.parentNode.classList.add('active')
+    $target.parent().addClass('active')
   }
 }
 

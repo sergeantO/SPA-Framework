@@ -21,6 +21,6 @@ function renderRoute() {
     route = this.routes.find(r => r.path === '**')
   }
 
-  document.querySelector('router-outlet').innerHTML = `<${route.component.selector}></${route.component.selector}>`
+  $('router-outlet').html( `<${route.component.selector}></${route.component.selector}>`)
   renderComponent( route.component )
 }

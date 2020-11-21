@@ -1,4 +1,5 @@
 import { _ } from '../../tools/util'
+import { $ } from '../../tools/dom'
 
 export class Component {
  constructor (config) {
@@ -12,10 +13,10 @@ export class Component {
    initStyles(this.styles)
 
 
-   this.el = document.querySelector(this.selector)
+   this.el = $(this.selector)
    if (!this.el) throw new Error(`Component with selector ${this.selector} wasn't found`)
    
-   this.el.innerHTML = compileTemplate(this.template, this.data)
+   this.el.html( compileTemplate(this.template, this.data) ) 
 
    initEvents.call(this)
  }
@@ -33,8 +34,8 @@ function initEvents() {
     let listener = key.split(' ')
 
     this.el
-      .querySelector( listener[1] )
-      .addEventListener( listener[0], this[ events[key] ].bind(this) )
+      .find( listener[1] )
+      .on( listener[0], this[ events[key] ].bind(this) )
   })
 
 }
