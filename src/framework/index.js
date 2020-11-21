@@ -6,6 +6,7 @@ import { _ } from './tools/util'
 import { $ } from './tools/dom'
 import { router } from './core/routing/router'
 import { EventEmitter } from './tools/event-emitter'
+import { Pipe as FWPipe } from './core/pipes/pipe'
 
 export {
   FWModule,
@@ -13,8 +14,9 @@ export {
   FWDirective,
   EventEmitter,
   bootstrap,
-  _,
   $,
+  _,
   router,
+  FWPipe,
   
 }

@@ -1,5 +1,6 @@
 import { _ } from '../../tools/util'
 import { $ } from '../../tools/dom'
+import { pipesFacrory } from '../pipes/pipes-factory'
 
 export class Component {
  constructor (config) {
@@ -20,8 +21,6 @@ export class Component {
 
    initEvents.call(this)
  }
-
-
 }
 
 function initEvents() {
@@ -47,8 +46,20 @@ function compileTemplate(template, data) {
 
   template = template.replace(regex, (str, d) => {
     let key = d.trim()
+    let pipe
 
-    return data[key]
+    if ( hasPipe(key) ) {
+      pipe = parsePipe(key)
+      key = getKeyFromPipe(key)
+    }
+    
+    if ( _.isUndefined(pipe) ) {
+      return data[key]
+    }
+
+    return aplyPipe( pipe, data[key] )
+
+    
   })
 
   return template
@@ -60,4 +71,32 @@ function initStyles (styles) {
   let style = document.createElement('style')
   style.innerHTML = styles
   document.head.appendChild(style)
+}
+
+function hasPipe(key) {
+  return key.includes('|')
+}
+
+function getKeyFromPipe(key) {
+  return key.split('|')[0].trim()
+}
+
+function  parsePipe(key) {
+  let pipe = key.split('|')[1].trim() 
+
+  if ( !pipe.includes(':') ) return { name: pipe, args: [] }
+
+  let pipeData = pipe.split(':')
+  return {
+    name: pipeData[0],
+    args: pipeData.slice(1)
+  }
+}
+
+function aplyPipe( pipeData, value ) {
+  let pipe = pipesFacrory.getPipe( pipeData.name )
+
+  if ( _.isUndefined(pipe) ) throw new Error(`Pipe ${pipeData.name} wasn't found`)
+
+  return pipe.transform(value, ...pipeData.args)
 }
