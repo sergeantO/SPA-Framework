@@ -2,7 +2,7 @@ import { FWModule } from "FW"
 import { appComponent } from "./app.component";
 import { appHeader } from "./common/header";
 import { appRoutes } from './app.routes'
-
+import { appHoverDirective } from "./common/directives/hover.directive"
 
 
 class AppModule extends FWModule {
@@ -17,5 +17,8 @@ export const appModule = new AppModule({
     appHeader
   ],
   bootstrap: appComponent,
-  routes: appRoutes
+  routes: appRoutes,
+  directives: [
+    appHoverDirective
+  ]
 })
