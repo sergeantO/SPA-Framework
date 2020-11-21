@@ -1,11 +1,12 @@
-import { FWComponent, router } from "FW"
+import { FWComponent, router, http } from "FW"
 
 class HomePageComponent extends FWComponent {
   constructor(config) {
     super(config)
 
     this.data = {
-      title: 'Главна страница работает!!!'
+      title: 'Главная страница работает!!!',
+      ip: 'Loading...'
     }
   }
 
@@ -25,7 +26,11 @@ class HomePageComponent extends FWComponent {
   }
 
   afterRender() {
-    console.log('after init')
+    http.get('https://api.ipify.org?format=json')
+      .then(({ip}) => {
+        this.data.ip = ip
+        this.render()
+      })
   }
 }
 
@@ -37,7 +42,7 @@ export const homePageComponent = new HomePageComponent({
         <div class="card blue-grey darken-1">
           <div class="card-content white-text">
             <span class="card-title"> {{ title }} </span>
-            <p>пусто</p>
+            <p>{{ ip }}</p>
           </div>
           <div class="card-action">
             <a href="#" class="link">Другая страница</a>
