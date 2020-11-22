@@ -3,9 +3,10 @@ const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
+  // базовая директория для точек входа и загрузчиков    
   context: path.join(__dirname, 'src'),
   
-  entry: './index.js',
+  entry: './index.ts',
 
   output: {
     filename: 'bundle.js',
@@ -14,11 +15,22 @@ module.exports = {
 
   devtool: 'eval',
 
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        loader: 'awesome-typescript-loader',
+        exclude: /node_modules/,
+      },
+    ],
+  },
+
   devServer: {
     port: 4200
   },
 
   resolve: {
+    extensions: [ '.tsx', '.ts', '.js' ],
     alias: {
       'FW': path.join(__dirname, 'src/framework')
     }

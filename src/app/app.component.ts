@@ -1,4 +1,4 @@
-import { FWComponent } from "FW"
+import { FWComponent } from "FW/index"
 
 class AppComponent extends FWComponent {
   constructor(config){

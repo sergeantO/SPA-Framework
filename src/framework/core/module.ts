@@ -5,9 +5,28 @@ import { RoutingModule } from './routing/routing.module'
 import { initDirectives } from "./directives/initDirectives"
 import { EventEmitter } from '../tools/event-emitter'
 import { initPipes } from './pipes/init-pipes'
+import { Pipe } from './pipes/pipe'
+import { Component } from './component/component'
+import { Directive } from './directives/directive'
+
+
+export type moduleConfig = {
+  components: Component[],
+  bootstrap: Component,
+  routes: { path: string, component: Component }[]
+  directives: Directive[]
+  pipes: Pipe[]
+}
 
 export class Module {
-  constructor  (config) {
+  components: Component[]
+  bootstrapComponent: Component
+  routes: { path: string; component: Component }[]
+  directives: Directive[]
+  pipes: Pipe[]
+  dispatcher: EventEmitter
+
+  constructor  (config: moduleConfig) {
     this.components = config.components
     this.bootstrapComponent = config.bootstrap
     this.routes = config.routes
@@ -29,7 +48,7 @@ export class Module {
   }
 }
 
-function initComponents(bootstrap, components) {
+function initComponents(bootstrap: Component, components: Component[]) {
   if ( _.isUndefined(bootstrap) ) {
     throw new Error('Bootstrap component is not defined')
   }

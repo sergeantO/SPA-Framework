@@ -1,4 +1,4 @@
-import { FWPipe } from "FW"
+import { FWPipe } from "FW/index"
 
 class AppPowPipe extends FWPipe {
   constructor(config){
@@ -8,7 +8,7 @@ class AppPowPipe extends FWPipe {
 
 export const appPowPipe = new AppPowPipe({
   name: 'pow',
-  transform(value, number = 2) {
+  transform(value: number, number = 2) {
     return Math.pow(value, number)
   }
 })

@@ -3,7 +3,7 @@ export const router = {
     return window.location.hash.slice(1)
   },
 
-  navigate (hash) {
+  navigate (hash: string) {
     window.location.hash = hash
   }
 }

@@ -2,9 +2,19 @@ import { router } from './router'
 import { _ } from '../../tools/util'
 import { $ } from '../../tools/dom'
 import { renderComponent } from '../component/render-component'
+import { EventEmitter } from 'FW/index'
+import { Component } from '../component/component'
+
+export type routeType = {
+  path: string
+  component: Component
+}
 
 export class RoutingModule {
-  constructor(routes, dispatcher) {
+  routes: routeType[]
+  dispatcher: EventEmitter
+
+  constructor(routes: routeType[], dispatcher: EventEmitter) {
     this.routes = routes
     this.dispatcher = dispatcher
   }

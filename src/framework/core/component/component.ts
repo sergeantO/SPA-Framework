@@ -2,13 +2,28 @@ import { _ } from '../../tools/util'
 import { $ } from '../../tools/dom'
 import { pipesFacrory } from '../pipes/pipes-factory'
 
+export type componentConfig = {
+  template: string
+  selector: string
+  styles: string
+}
+
 export class Component {
- constructor (config) {
+ template: string
+ selector: string
+  styles: string
+  el: any
+  data: { [key:string]: any }
+ 
+ constructor (config: componentConfig) {
   this.template= config.template
   this.selector = config.selector
   this.styles = config.styles
   this.el = null
  }
+
+ afterRender() {}
+  onInit() {}
 
  render () {
    initStyles(this.styles)
@@ -21,6 +36,7 @@ export class Component {
 
    initEvents.call(this)
  }
+
 }
 
 function initEvents() {
@@ -39,14 +55,14 @@ function initEvents() {
 
 }
 
-function compileTemplate(template, data) {
+function compileTemplate(template: string, data: { [key:string]: any }): string {
   if ( _.isUndefined(data) ) return template
 
   let regex = /\{{(.*?)}}/g
 
   template = template.replace(regex, (str, d) => {
-    let key = d.trim()
-    let pipe
+    let key: string = d.trim()
+    let pipe: pipeData
 
     if ( hasPipe(key) ) {
       pipe = parsePipe(key)
@@ -65,7 +81,7 @@ function compileTemplate(template, data) {
   return template
 }
 
-function initStyles (styles) {
+function initStyles (styles: string) {
   if ( _.isUndefined(styles) ) return
 
   let style = document.createElement('style')
@@ -73,15 +89,20 @@ function initStyles (styles) {
   document.head.appendChild(style)
 }
 
-function hasPipe(key) {
+function hasPipe(key: string) {
   return key.includes('|')
 }
 
-function getKeyFromPipe(key) {
+function getKeyFromPipe(key: string) {
   return key.split('|')[0].trim()
 }
 
-function  parsePipe(key) {
+type pipeData = {
+  name: string;
+  args: any[];
+}
+
+function  parsePipe(key: string) : pipeData {
   let pipe = key.split('|')[1].trim() 
 
   if ( !pipe.includes(':') ) return { name: pipe, args: [] }
@@ -93,7 +114,7 @@ function  parsePipe(key) {
   }
 }
 
-function aplyPipe( pipeData, value ) {
+function aplyPipe( pipeData: pipeData, value ) {
   let pipe = pipesFacrory.getPipe( pipeData.name )
 
   if ( _.isUndefined(pipe) ) throw new Error(`Pipe ${pipeData.name} wasn't found`)

@@ -1,11 +1,8 @@
-import { FWComponent, router } from "FW"
+import { componentConfig, FWComponent } from "FW/index"
 
 class DirectivePageComponent extends FWComponent {
-  constructor(config) {
+  constructor(config: componentConfig) {
     super(config)
-
-    this.data = {
-    }
   }
 }
 
@@ -19,5 +16,5 @@ export const directivePageComponent = new DirectivePageComponent({
     </div>
   `,
   styles: `
-  `
+  `,
 })

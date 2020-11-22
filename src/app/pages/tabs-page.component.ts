@@ -1,4 +1,4 @@
-import { FWComponent, $ } from "FW"
+import { FWComponent, $ } from "FW/index"
 
 
 class TabsPageComponent extends FWComponent {
@@ -17,7 +17,7 @@ class TabsPageComponent extends FWComponent {
      
     if ( !$target.hasClass('collapsible-header') ) return
 
-    let childs = $target.parent().parent().get().children
+    let childs: Element[] = Array.from ( $target.parent().parent().get().children )
 
     for (let child of childs) {
       let $child = $(child)

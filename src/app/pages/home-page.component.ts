@@ -1,4 +1,4 @@
-import { FWComponent, router, http } from "FW"
+import { FWComponent, router, http } from "FW/index"
 
 class HomePageComponent extends FWComponent {
   constructor(config) {
@@ -21,13 +21,9 @@ class HomePageComponent extends FWComponent {
     }
   }
 
-  onInit () {
-    console.log('init')
-  }
-
   afterRender() {
     http.get('https://api.ipify.org?format=json')
-      .then(({ip}) => {
+      .then( ({ ip }) => {
         this.data.ip = ip
         this.render()
       })

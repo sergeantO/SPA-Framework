@@ -1,4 +1,4 @@
-import { FWDirective } from "FW"
+import { FWDirective } from "FW/index"
 class AppHoverDirective extends FWDirective {
   constructor (config) {
     super(config)

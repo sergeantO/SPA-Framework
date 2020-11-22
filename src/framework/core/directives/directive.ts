@@ -1,8 +1,16 @@
 import { $ } from '../../tools/dom'
 import { _ } from '../../tools/util'
 
+export type directiveConfig = {
+  selector: string
+  onInit: Function
+}
+
 export class Directive {
-  constructor (config) {
+  selector: string
+  onInit: Function
+
+  constructor (config: directiveConfig) {
     this.selector = config.selector
     this.onInit = config.onInit
   }
@@ -18,6 +26,6 @@ export class Directive {
   }
 }
 
-function getParamValue(el, selector) {
+function getParamValue(el, selector: string) {
   return el.attr( selector.slice(1).slice(0, selector.length-2) )
 }

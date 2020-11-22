@@ -1,6 +1,7 @@
 import { _ } from "../../tools/util"
+import { Component } from "./component"
 
-export function renderComponent(c) {
+export function renderComponent(c: Component) {
   if ( !_.isUndefined(c.onInit) ) c.onInit()
 
   c.render()

@@ -1,4 +1,4 @@
-import { FWModule } from "FW"
+import { FWModule } from "FW/index"
 import { appComponent } from "./app.component";
 import { appHeader } from "./common/header";
 import { appRoutes } from './app.routes'
