@@ -51,6 +51,29 @@ export const tabsPageComponent = new TabsPageComponent({
     </div>
   </div> 
   `,
+  vtemplate: `
+  .row .row-tab
+    .s6 .offset-s3
+      ul .collapsible .popout
+        li
+          .collapsible-header  
+            i .material-icons > filter_drama 
+            span > First
+          .collapsible-body  
+            span > Lorem ipsum dolor sit amet.
+        li
+          .collapsible-header 
+            i .material-icons > place 
+            span > Second
+          .collapsible-body 
+            span > Lorem ipsum dolor sit amet.
+        li
+          .collapsible-header 
+            i .material-icons > whatshot 
+            span > Third
+          .collapsible-body 
+            span > Lorem ipsum dolor sit amet.
+  `,
   styles: `
     .row-tab { margin-top: 30px }
     

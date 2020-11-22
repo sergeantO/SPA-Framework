@@ -3,11 +3,12 @@ import { Component as FWComponent, componentConfig } from './core/component/comp
 import { bootstrap } from './core/functions/bootstrap'
 import { Directive as FWDirective, directiveConfig } from './core/directives/directive'
 import { _ } from './tools/util'
-import { $ } from './tools/dom'
+import { $, DOMManipulatorType } from './tools/dom'
 import { router } from './core/routing/router'
 import { EventEmitter } from './tools/event-emitter'
 import { http } from './tools/http'
 import { Pipe as FWPipe, pipeConfig } from './core/pipes/pipe'
+import { vdom } from './tools/vdom'
 
 export {
   FWModule,
@@ -20,9 +21,11 @@ export {
   _,
   router,
   http,
-
+  vdom,
+  
   moduleConfig,
   componentConfig,
   directiveConfig,
-  pipeConfig
+  pipeConfig,
+  DOMManipulatorType
 }

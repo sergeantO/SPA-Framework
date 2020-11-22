@@ -1,14 +1,14 @@
-import { $ } from '../../tools/dom'
+import { $, DOMManipulatorType } from '../../tools/dom'
 import { _ } from '../../tools/util'
 
 export type directiveConfig = {
   selector: string
-  onInit: Function
+  onInit: (el: DOMManipulatorType, string) => void
 }
 
 export class Directive {
   selector: string
-  onInit: Function
+  onInit: (el: DOMManipulatorType, string) => void
 
   constructor (config: directiveConfig) {
     this.selector = config.selector
@@ -26,6 +26,6 @@ export class Directive {
   }
 }
 
-function getParamValue(el, selector: string) {
+function getParamValue(el: DOMManipulatorType, selector: string) {
   return el.attr( selector.slice(1).slice(0, selector.length-2) )
 }

@@ -1,22 +1,31 @@
 import { _ } from '../../tools/util'
 import { $ } from '../../tools/dom'
 import { pipesFacrory } from '../pipes/pipes-factory'
+import { vdom } from 'FW/index'
 
 export type componentConfig = {
-  template: string
+  template?: string
+  vtemplate?: string
   selector: string
   styles: string
 }
 
 export class Component {
- template: string
- selector: string
+  template: string
+  selector: string
   styles: string
   el: any
   data: { [key:string]: any }
  
  constructor (config: componentConfig) {
-  this.template= config.template
+  if ( !_.isUndefined(config.vtemplate) ) {
+    this.template = vdom(config.vtemplate)
+  } else if ( !_.isUndefined(config.template) ) {
+    this.template = config.template
+  } else {
+    throw new Error (`Component ${config.selector} hasn't template`)
+  }
+  
   this.selector = config.selector
   this.styles = config.styles
   this.el = null

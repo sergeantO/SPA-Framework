@@ -90,3 +90,5 @@ class DOMManipulator {
 export function $(el: string | (Node & ParentNode)) {
   return new DOMManipulator(el)
 }
+
+export type DOMManipulatorType = InstanceType<typeof DOMManipulator>
