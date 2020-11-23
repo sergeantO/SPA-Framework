@@ -35,8 +35,8 @@ export class Component {
   onInit() {}
 
  render () {
-   initStyles(this.styles)
 
+   initStyles(this.styles)
 
    this.el = $(this.selector)
    if (!this.el) throw new Error(`Component with selector ${this.selector} wasn't found`)
@@ -44,6 +44,7 @@ export class Component {
    this.el.html( compileTemplate(this.template, this.data) ) 
 
    initEvents.call(this)
+
  }
 
 }
@@ -83,8 +84,6 @@ function compileTemplate(template: string, data: { [key:string]: any }): string 
     }
 
     return aplyPipe( pipe, data[key] )
-
-    
   })
 
   return template

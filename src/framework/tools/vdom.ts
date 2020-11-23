@@ -11,7 +11,7 @@ class DomElem {
   level: number
   content: string;
 
-  constructor(level, tag, id, classes, other, content) {
+  constructor(level, tag, id, classes = [], other = [], content) {
     this.level = level
     this.tag = tag
     this.id = id
@@ -77,83 +77,75 @@ export function vdom (str: string): string {
   return root.render()
 }
 
-function spacesBeforeFirstCharacter(str: string): number {
-  let pttrn = /^\s*/;
-  return str.match(pttrn)[0].length;
-}
-
 function parseLine(line: string): DomElem|undefined {
   let level = spacesBeforeFirstCharacter(line)
-  if (level === 0) return
-
   line = line.trim()
   if (line.length === 0) return
   if ( isComment(line) ) return
 
-  let { master, slaves } = getArray(line)
-
-  let content: string
-  if ( _.isUndefined(slaves) ) {
-    [line, content] = line.split('>')
-  } else {
-    line = master
-  }
-
-  let lineArray = line.trim().split(' ')
-  let tag = ( isTag(lineArray[0]) ) ? lineArray.shift() : "div"
-
-  let classes: string[] = []
-  let other: string[] = []
-  let id: string
-
-  lineArray.forEach(param => {
-    if ( isClass(param) ) {
-      classes.push(param.slice(1))
-      return
-    } 
-
-    if ( isID(param) ) {
-      id = param.slice(1)
-      return
-    } 
-
-    other.push(param)
-  })
-
+  let { tag, id, classes, other, content, childs } = getData(line)
   let elem = new DomElem(level, tag, id, classes, other, content)
-  if ( !_.isUndefined(slaves) ) {
-    let slaveElems = slaves.map( slave => parseLine(slave) ) 
-    elem.addChilds(slaveElems)
-  }
+  if ( !_.isUndefined(childs) ) 
+    elem.addChilds(childs)
+  
+
   return elem 
 }
 
-function isComment(str: string) {
+function getData(str: string) {
+  let pttrn = /^(?<tag>[^.|#|>|\[|\s]+)?\s*(?<params>[^\[|>]+)?\s*((\[(?<array>((.+,)*.+))\])|(>(?<content>[^\[]+)))?/
+  let match = str.match(pttrn)
+  if (match) {
+    let tag = match.groups.tag || "div"
+    let content = match.groups.content
+    let childs = getChilds(match.groups.array) || []
+    let classes = getClasses(match.groups.params) || []
+    let other = getOther(match.groups.params) || []
+    let id = getID(match.groups.params)
+
+    return { tag, id, classes, other, content, childs }
+  }
+}
+
+function getChilds(childs: string) {
+  if ( _.isUndefined(childs) ) return 
+  return childs.split(',')
+    .map( child => parseLine( child.trim() ) )
+}
+
+function getClasses(params: string) {
+  if ( _.isUndefined(params) ) return
+  return params.split(' ')
+    .filter( param => isClass(param) )
+    .map( clas => clas.slice(1))
+}
+
+function getID(params: string) {
+  if ( _.isUndefined(params) ) return
+  let IDs = params.split(' ').filter( param => isID(param) )
+  if (IDs.length === 1) return IDs[0].slice(1)
+  if (IDs.length > 1) throw new Error('Узел может содержать только 1 id')
+}
+
+function getOther(params: string) {
+  if ( _.isUndefined(params) ) return
+  return params.split(' ').filter( param => !isID(param) && !isClass(param) && param.length>0 )
+}
+
+function isClass(param: string): boolean {
+  return param[0] === '.'
+}
+
+function isID(param: string): boolean {
+  return param[0] === '#'
+}
+
+function isComment(str: string): boolean {
   let pttrn = /\s*\/\//;
   return pttrn.test(str); 
 }
 
-function getArray(str: string) {
-  let pttrn = /(?<master>.+)\[(?<array>.+)\]/;
-  let match = str.match(pttrn)
-
-  let slaves: string[], master: string
-  if (match) {
-    slaves = match.groups.array.split(',')
-    master = match.groups.master
-  }
-
-  return { master, slaves }
-}
-
-function isClass(param: string) {
-  return param[0] === '.'
-}
-
-function isID(param: string) {
-  return param[0] === '#'
-}
-
-function isTag(param: string) {
-  return !isClass(param) && !isID(param)
+function spacesBeforeFirstCharacter(str: string): number {
+  let pttrn = /^\s*/;
+  return str.match(pttrn)[0].length;
 }
